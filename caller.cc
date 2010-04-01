@@ -1,3 +1,11 @@
+/**
+ *
+ * Ankur's Super Awesome cool utility for world Domination
+ * Compile using: g++ -g caller.cc $(pkg-config --libs --cflags libcurl) -o caller
+ *
+ */
+
+
 #include <string.h>
 #include <time.h>
 #include <stdlib.h>
@@ -77,11 +85,15 @@ int processSend(int nameID){
 
 int main(int argc, char **argv){
     int status;
-    /*pid_t pid;
+    int nameID = time(NULL);
+
+    pid_t pid;
     pid_t pid2;
+    printf("\nAnkur's Super Awesome cool utility for world Domination\n");
+    fflush(stdout);
     pid = fork();
     if(pid == 0){
-        processRecord(1011);
+        processRecord(nameID);
         status 0;
     }
     else if(pid<0){
@@ -91,12 +103,20 @@ int main(int argc, char **argv){
         // Parent Process. Wait for the child to complete
         if(waitpid( pid, &status, 0) != pid){
             // We finished recording the openRTSP. Now we should for and call
-            // the 
+            // send the program
+            pid2 = fork();
+            if(pid2<0)
+                status = -1;
+            else if( pid == 0){
+                    processSend(nameID);
+                status = 0;
+            }
             status = -1;
         }
-    }*/
-    int nameID = time(NULL);
+    }
+    /*
     processRecord(nameID);
     processSend(nameID);
+    */
     printf("completed sending %d\n", nameID);
 }
