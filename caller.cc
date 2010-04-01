@@ -14,17 +14,15 @@
 #include <sys/wait.h>
 #include <curl/curl.h>
 
-size_t read_callback(void *ptr, size_t size, size_t nmemb, void *stream){
-    size_t retcode;
-    retcode = fread(ptr, size, nmemb, (FILE*) stream);
-    return retcode;
+size_t ignore_output(void *ptr, size_t size, size_t nmemb, void *stream){
+    return size*nmemb;
 }
 
-int processRecord(int nameID ){
+int processRecord(int nameID, int duration){
     char buffer[200];
     printf("\nExec: OpenRTSP capture for 20 secs to temp%d.mp4 .....", nameID);
     fflush(stdout);
-    sprintf(buffer, "./openRTSP -4 -d 10 rtsp://128.125.91.194/img/video.sav 1>temp%d.mp4 2>/dev/null", nameID);
+    sprintf(buffer, "./openRTSP -4 -d %d rtsp://128.125.91.194/img/video.sav 1>temp%d.mp4 2>/dev/null", duration ,nameID);
     return system(buffer);
 }
 
@@ -84,39 +82,64 @@ int processSend(int nameID){
 }
 
 int main(int argc, char **argv){
-    int status;
-    int nameID = time(NULL);
-
-    pid_t pid;
-    pid_t pid2;
-    printf("\nAnkur's Super Awesome cool utility for world Domination\n");
-    fflush(stdout);
-    pid = fork();
-    if(pid == 0){
-        processRecord(nameID);
-        status 0;
-    }
-    else if(pid<0){
-        // Fork Failed!!
-        status = -1;
-    }else{
-        // Parent Process. Wait for the child to complete
-        if(waitpid( pid, &status, 0) != pid){
-            // We finished recording the openRTSP. Now we should for and call
-            // send the program
-            pid2 = fork();
-            if(pid2<0)
-                status = -1;
-            else if( pid == 0){
-                    processSend(nameID);
-                status = 0;
+    opterr = 0;
+    int duration=5;
+    int c;
+    int cyclecount = 10;
+    while((c=getopt(argc, argv, "d:n:"))>-1){
+        printf("Opt=%c, string=%s\n", c, optarg ); /* Add DEBUG */
+        switch(c){
+            case 'n':
+                if((sscanf(optarg, "%d", &cyclecount)) != 1)
+                    printf("No n\n");
+                break;
+            case 'd': 
+                if((sscanf(optarg, "%d", &duration)) != 1)
+                    printf("No d\n");
+                break;
+            case '?':
+                fprintf(stdout, 
+                "Usage: ./caller [-d duration=5] [-n=10] url\n-d Duration of each recording\n-n Number of recordings\n");
+                exit(0);
+                break;
+            default:
+                duration = 5;
+                cyclecount=10;
+                break;
             }
-            status = -1;
-        }
     }
-    /*
-    processRecord(nameID);
-    processSend(nameID);
-    */
-    printf("completed sending %d\n", nameID);
+    // Non option Argument is the url
+    do{
+        int status;
+        int nameID = time(NULL);
+        pid_t pid;
+        pid_t pid2;
+        cyclecount--;
+        printf("\nAnkur's Super Awesome cool utility for world Domination\n");
+        fflush(stdout);
+        pid = fork();
+        if(pid == 0){
+            return processRecord(nameID, duration);
+            status = 0;
+        }else if(pid<0){
+            // Fork Failed!!
+            status = -1;
+        }else{
+            // Parent Process. Wait for the child to complete
+            int w = waitpid(pid, &status, WUNTRACED | WCONTINUED);
+            if(w == pid){
+                // We finished recording the openRTSP. Now we should for and call
+                // send the program
+                pid2 = fork();
+                if(pid2<0)
+                    status = -1;
+                else if( pid2 == 0){
+                        return processSend(nameID);
+                        status = 0;
+                    }
+                    status = -1;
+            }
+        }
+    }while(cyclecount >= 0);
+
 }
