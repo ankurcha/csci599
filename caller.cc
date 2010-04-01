@@ -24,7 +24,7 @@ int processRecord(int nameID ){
     char buffer[200];
     printf("\nExec: OpenRTSP capture for 20 secs to temp%d.mp4 .....", nameID);
     fflush(stdout);
-    sprintf(buffer, "./openRTSP -4 -d 20 rtsp://128.125.91.194/img/video.sav 1>temp%d.mp4 2>/dev/null", nameID);
+    sprintf(buffer, "./openRTSP -4 -d 10 rtsp://128.125.91.194/img/video.sav 1>temp%d.mp4 2>/dev/null", nameID);
     return system(buffer);
 }
 
