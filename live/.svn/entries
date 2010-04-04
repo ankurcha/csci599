@@ -1,0 +1,357 @@
+10
+
+dir
+0
+svn://mslab09.usc.edu/RAYS/live
+svn://mslab09.usc.edu
+add
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+c8ee1f53-7aee-154f-a6db-09ecbd7a4fcb
+
+configure
+file
+
+
+
+add
+
+
+
+
+
+has-props
+has-prop-mods
+
+config.mingw
+file
+
+
+
+add
+
+config.aix
+file
+
+
+
+add
+
+UsageEnvironment
+dir
+
+
+
+add
+
+testProgs
+dir
+
+
+
+add
+
+config.linux-gdb
+file
+
+
+
+add
+
+config.qnx4
+file
+
+
+
+add
+
+config.macosx
+file
+
+
+
+add
+
+liveMedia
+dir
+
+
+
+add
+
+config.solaris-32bit
+file
+
+
+
+add
+
+config.macosx-before-version-10.4
+file
+
+
+
+add
+
+config.armlinux
+file
+
+
+
+add
+
+config.linux
+file
+
+
+
+add
+
+config.cygwin
+file
+
+
+
+add
+
+Makefile.tail
+file
+
+
+
+add
+
+config.solaris-64bit
+file
+
+
+
+add
+
+config.bfin-uclinux
+file
+
+
+
+add
+
+COPYING
+file
+
+
+
+add
+
+config.bsplinux
+file
+
+
+
+add
+
+config.cygwin-for-vlc
+file
+
+
+
+add
+
+config.sunos
+file
+
+
+
+add
+
+Makefile
+file
+
+
+
+add
+
+config.bfin-linux-uclibc
+file
+
+
+
+add
+
+config.irix
+file
+
+
+
+add
+
+win32config
+file
+
+
+
+add
+
+config.alpha
+file
+
+
+
+add
+
+config.armeb-uclibc
+file
+
+
+
+add
+
+genMakefiles
+file
+
+
+
+add
+
+
+
+
+
+has-props
+has-prop-mods
+
+config.cris-axis-linux-gnu
+file
+
+
+
+add
+
+config.uClinux
+file
+
+
+
+add
+
+BasicUsageEnvironment
+dir
+
+
+
+add
+
+README
+file
+
+
+
+add
+
+config.openbsd
+file
+
+
+
+add
+
+config.avr32-linux
+file
+
+
+
+add
+
+fix-makefile
+file
+
+
+
+add
+
+
+
+
+
+has-props
+has-prop-mods
+
+genWindowsMakefiles
+file
+
+
+
+add
+
+
+
+
+
+has-props
+has-prop-mods
+
+mediaServer
+dir
+
+
+
+add
+
+genWindowsMakefiles.cmd
+file
+
+
+
+add
+
+win32config.Borland
+file
+
+
+
+add
+
+groupsock
+dir
+
+
+
+add
+
+WindowsAudioInputDevice
+dir
+
+
+
+add
+
+Makefile.head
+file
+
+
+
+add
+
+config.freebsd
+file
+
+
+
+add
+

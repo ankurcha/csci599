@@ -1,0 +1,93 @@
+10
+
+dir
+0
+svn://mslab09.usc.edu/RAYS/live/UsageEnvironment
+svn://mslab09.usc.edu
+add
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+c8ee1f53-7aee-154f-a6db-09ecbd7a4fcb
+
+strDup.cpp
+file
+
+
+
+add
+
+include
+dir
+
+
+
+add
+
+Makefile.tail
+file
+
+
+
+add
+
+COPYING
+file
+
+
+
+add
+
+
+
+
+
+has-props
+has-prop-mods
+
+svn:special
+
+UsageEnvironment.cpp
+file
+
+
+
+add
+
+HashTable.cpp
+file
+
+
+
+add
+
+Makefile
+file
+
+
+
+add
+
+Makefile.head
+file
+
+
+
+add
+

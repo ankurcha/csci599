@@ -1,0 +1,84 @@
+10
+
+dir
+0
+svn://mslab09.usc.edu/RAYS/live/WindowsAudioInputDevice
+svn://mslab09.usc.edu
+add
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+c8ee1f53-7aee-154f-a6db-09ecbd7a4fcb
+
+WindowsAudioInputDevice_mixer.cpp
+file
+
+
+
+add
+
+WindowsAudioInputDevice_common.hh
+file
+
+
+
+add
+
+WindowsAudioInputDevice.mak
+file
+
+
+
+add
+
+WindowsAudioInputDevice_common.cpp
+file
+
+
+
+add
+
+showAudioInputPorts.cpp
+file
+
+
+
+add
+
+WindowsAudioInputDevice_noMixer.hh
+file
+
+
+
+add
+
+WindowsAudioInputDevice_mixer.hh
+file
+
+
+
+add
+
+WindowsAudioInputDevice_noMixer.cpp
+file
+
+
+
+add
+
