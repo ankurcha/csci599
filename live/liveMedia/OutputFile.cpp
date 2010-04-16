@@ -39,9 +39,22 @@ FILE* OpenOutputFile(UsageEnvironment& env, char const* fileName) {
     _setmode(_fileno(stdout), _O_BINARY);       // convert to binary mode
 #endif
   } else if (strcmp(fileName, "stderr") == 0) {
-    fid = stderr;
+	  fid = stderr;
 #if (defined(__WIN32__) || defined(_WIN32)) && !defined(_WIN32_WCE)
-    _setmode(_fileno(stderr), _O_BINARY);       // convert to binary mode
+	  _setmode(_fileno(stderr), _O_BINARY);       // convert to binary mode
+#endif
+  }else if (strcmp(fileName, "tmpfs") == 0) {
+	  
+#if (defined(__WIN32__) || defined(_WIN32)) && !defined(_WIN32_WCE)
+	  fid = CreateFile(tmpname(fileName),
+					   GENERIC_WRITE,
+					   0,
+					   NULL,
+					   CREATE_ALWAYS,
+					   FILE_ATTRIBUTE_TEMPORARY | FILE_FLAG_DELETE_ON_CLOSE,
+					   0);
+#else
+	  fid = tmpfile();
 #endif
   } else {
     fid = fopen(fileName, "wb");

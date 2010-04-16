@@ -43,7 +43,7 @@ int processSend(int nameID){
     struct curl_httppost *last=NULL;
     struct curl_slist *headerlist = NULL;
     char file[100];
-
+	
     char videoID[100];
     char blockID[100];
     
@@ -55,17 +55,17 @@ int processSend(int nameID){
     
     sprintf(videoID,"%d", nameID);
     sprintf(blockID, "%d", 1);
-
+	
     /*
-    hd = open(file, O_RDONLY);
-    fstat(hd, &file_info);
-    close(hd);
-    */
-
+	 hd = open(file, O_RDONLY);
+	 fstat(hd, &file_info);
+	 close(hd);
+	 */
+	
     hd_src = fopen(file, "rb");
-
+	
     curl_global_init(CURL_GLOBAL_ALL);
-
+	
     curl = curl_easy_init();
     if(curl){
         // Setup Variables for curl mumbo-jumbo!
@@ -105,14 +105,14 @@ int main(int argc, char **argv){
                 break;
             case '?':
                 fprintf(stdout, 
-                "Usage: ./caller [-d duration=5] [-n=10] url\n-d Duration of each recording\n-n Number of recordings\n");
+						"Usage: ./caller [-d duration=5] [-n=10] url\n-d Duration of each recording\n-n Number of recordings\n");
                 exit(0);
                 break;
             default:
                 duration = 5;
                 cyclecount=10;
                 break;
-            }
+		}
     }
     // Non option Argument is the url
     do{
@@ -140,12 +140,12 @@ int main(int argc, char **argv){
                 if(pid2<0)
                     status = -1;
                 else if( pid2 == 0){
-                        return processSend(nameID);
-                        status = 0;
-                    }
-                    status = -1;
+					return processSend(nameID);
+					status = 0;
+				}
+				status = -1;
             }
         }
     }while(cyclecount >= 0);
-
+	
 }
