@@ -1,6 +1,7 @@
 /**
  *
  * Ankur's Super Awesome cool utility for world Domination
+ * <ankurcha@usc.edu>
  * Compile using: g++ -g caller.cc $(pkg-config --libs --cflags libcurl) -o caller
  *
  */
@@ -13,32 +14,44 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <curl/curl.h>
-
+#define MAX_BUF_SIZE 1024*1024
 #ifdef WIN32
 #include <windows.h>
 #include <string.h>
 #include <conio.h>
 #include <process.h>
 #endif 
+
 size_t ignore_output(void *ptr, size_t size, size_t nmemb, void *stream){
     return size*nmemb;
 }
 
-int processRecord(int nameID, int duration){
-    char buffer[200];
-    printf("\nExec: OpenRTSP capture for 20 secs to temp%d.mp4 .....", nameID);
-    fflush(stdout);
-    sprintf(buffer, "./openRTSP -4 -d %d rtsp://128.125.91.194/img/video.sav 1>temp%d.mp4 2>/dev/null", duration ,nameID);
-    return system(buffer);
+string processRecord(int duration){
+    string temp;
+    int chars_read = 0;
+    char buffer[BUF_MAX_SIZE];
+    memset(buffer, '\0', sizeof(buffer));
+    
+    FILE *read;
+    sprintf( buffer, 
+            "./openRTSP -4 -d %d rtsp://128.125.91.194/img/video.sav 2>/dev/null", duration );
+    read =  popen(buffer, "r");
+     
+    if(read != NULL){
+        chars_read = fread(buffer, sizeof(char), BUFSIZ, read);
+        if(chars_read>0) {
+            pclose(read);
+            return new string(buffer);
+        }
+    }
+    return "";
 }
 
-int processSend(int nameID){
+int processSend(int videoID, int blockID, string str){
     char buffer[300];
     CURL *curl;
     CURLcode res;
-    FILE *hd_src;
     int hd;
-    //struct stat file_info;
     struct curl_httppost *post=NULL;
     struct curl_httppost *last=NULL;
     struct curl_slist *headerlist = NULL;
@@ -49,31 +62,41 @@ int processSend(int nameID){
     
     char url[256];
     strcpy(url,"http://mslab09.usc.edu:22112/cs599/upload.jsp");
-    printf("\nAttempting to send temp%d.mp4 to server .....", nameID);
+    printf("\nAttempting to send file to server .....", nameID);
     fflush(stdout);
-    sprintf(file, "temp%d.mp4", nameID);
     
-    sprintf(videoID,"%d", nameID);
-    sprintf(blockID, "%d", 1);
-	
-    /*
-	 hd = open(file, O_RDONLY);
-	 fstat(hd, &file_info);
-	 close(hd);
-	 */
-	
-    hd_src = fopen(file, "rb");
+    sprintf(videoID,"%d", videoID);
+    sprintf(blockID, "%d", blockID);
 	
     curl_global_init(CURL_GLOBAL_ALL);
 	
     curl = curl_easy_init();
     if(curl){
         // Setup Variables for curl mumbo-jumbo!
-        curl_easy_setopt(curl, CURLOPT_URL, "http://mslab09.usc.edu:22112/cs599/upload.jsp");
-        curl_formadd(&post, &last, CURLFORM_COPYNAME, "videoID", CURLFORM_COPYCONTENTS, videoID, CURLFORM_END);
-        curl_formadd(&post, &last, CURLFORM_COPYNAME, "blockID", CURLFORM_COPYCONTENTS, blockID, CURLFORM_END);
-        curl_formadd(&post, &last, CURLFORM_COPYNAME, "requestType", CURLFORM_COPYCONTENTS, "put", CURLFORM_END);
-        curl_formadd(&post, &last, CURLFORM_COPYNAME, "F1", CURLFORM_FILE, file, CURLFORM_END);
+        curl_easy_setopt(curl, CURLOPT_URL, 
+                        "http://mslab09.usc.edu:22112/cs599/upload.jsp");
+
+        curl_formadd(&post, &last, 
+                    CURLFORM_COPYNAME, "videoID", 
+                    CURLFORM_COPYCONTENTS, videoID, 
+                    CURLFORM_END);
+
+        curl_formadd(&post, &last, 
+                    CURLFORM_COPYNAME, "blockID", 
+                    CURLFORM_COPYCONTENTS, blockID, 
+                    CURLFORM_END);
+
+        curl_formadd(&post, &last, 
+                    CURLFORM_COPYNAME, "requestType", 
+                    CURLFORM_COPYCONTENTS, "put", 
+                    CURLFORM_END);
+
+        curl_formadd(&post, &last,
+                CURLFORM_COPYNAME, "F1",
+                CURLFORM_BUFFER, "caller",
+                CURLFORM_BUFFERPTR, fl,
+                CURLFORM_BUFFERLENGTH, len,
+                CURLFORM_END);
         
         curl_easy_setopt(curl, CURLOPT_HTTPPOST, post);
         

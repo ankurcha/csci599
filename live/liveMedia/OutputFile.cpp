@@ -43,6 +43,8 @@ FILE* OpenOutputFile(UsageEnvironment& env, char const* fileName) {
 #if (defined(__WIN32__) || defined(_WIN32)) && !defined(_WIN32_WCE)
 	  _setmode(_fileno(stderr), _O_BINARY);       // convert to binary mode
 #endif
+	  /********** START EDIT @ankurcha **************/
+	   
   }else if (strcmp(fileName, "tmpfs") == 0) {
 	  
 #if (defined(__WIN32__) || defined(_WIN32)) && !defined(_WIN32_WCE)
@@ -56,6 +58,7 @@ FILE* OpenOutputFile(UsageEnvironment& env, char const* fileName) {
 #else
 	  fid = tmpfile();
 #endif
+	  /********** END EDIT @ankurcha **************/
   } else {
     fid = fopen(fileName, "wb");
   }

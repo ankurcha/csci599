@@ -137,8 +137,6 @@ private:
                                   _atom(Fclp);
                                   _atom(Hclp);
                           _atom(mp4a);
-//                            _atom(wave);
-//                                _atom(frma);
                                   _atom(esds);
                                   _atom(srcq);
                           _atom(h263);
@@ -178,7 +176,7 @@ private:
   unsigned fMovieFPS;
   unsigned fMDATposition;
   unsigned fMVHD_durationPosn;
-  unsigned fMaxTrackDurationM; // in movie time units
+  unsigned fMaxTrackDurationM;
   class SubsessionIOState* fCurrentIOState;
 };
 

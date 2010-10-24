@@ -622,7 +622,7 @@ int main(int argc, char** argv) {
   if (createReceivers) {
     if (outputQuickTimeFile) {
       // Create a "QuickTimeFileSink", to write to 'stdout':
-      qtOut = QuickTimeFileSink::createNew(*env, *session, "tmpfs",
+      qtOut = QuickTimeFileSink::createNew(*env, *session, "stdout",
 					   fileSinkBufferSize,
 					   movieWidth, movieHeight,
 					   movieFPS,
@@ -638,7 +638,7 @@ int main(int argc, char** argv) {
       qtOut->startPlaying(sessionAfterPlaying, NULL);
     } else if (outputAVIFile) {
       // Create an "AVIFileSink", to write to 'stdout':
-      aviOut = AVIFileSink::createNew(*env, *session, "tmpfs",
+      aviOut = AVIFileSink::createNew(*env, *session, "stdout",
 				      fileSinkBufferSize,
 				      movieWidth, movieHeight,
 				      movieFPS,
